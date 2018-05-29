@@ -8,5 +8,16 @@
   },
   "author": "Makoto Arata",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {},
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ar-tama/cosmosdb-query-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ar-tama/cosmosdb-query-builder/issues"
+  },
+  "homepage": "https://github.com/ar-tama/cosmosdb-query-builder#readme"
 }
