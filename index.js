@@ -130,6 +130,11 @@ class QueryBuilder {
           name: placeholder,
           value: Number(value),
         });
+      } else if (type.toLowerCase() == 'boolean' || isBoolean(value)) {
+        binds.push({
+          name: placeholder,
+          value: Boolean(value),
+        });
       } else {
         binds.push({
           name: placeholder,
@@ -179,6 +184,9 @@ function isArray(p) {
 }
 function isObject(p) {
   return (typeof p === typeof {} && p.length === undefined);
+}
+function isBoolean(p) {
+  return (typeof p === typeof Boolean(1));
 }
 function generateRandomKey(key) {
   return key + Math.floor(Math.random() * 1000).toString();

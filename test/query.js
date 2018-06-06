@@ -138,3 +138,13 @@ it('SELECT * FROM c WHERE ARRAY_CONTAINS(c.name, "bar")', () => {
   );
   assert(querySpec.query.match(/SELECT \* FROM c WHERE \( ARRAY_CONTAINS\(c.name, @name[0-9]+\) \)/));
 });
+
+it('SELECT * FROM c WHERE c.flag = true', () => {
+  const querySpec = builder.query(
+    'SELECT * FROM %t WHERE %w',
+    'c',
+    { flag: { type: 'boolean', value: true } }
+  );
+  assert(querySpec.query.match(/SELECT \* FROM c WHERE \( c.flag = @flag[0-9]+ \)/));
+  assert(typeof querySpec.parameters[0].value, typeof Boolean(1));
+});
