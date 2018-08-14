@@ -120,27 +120,28 @@ class QueryBuilder {
       const type = params[key].type || '';
       const value = params[key].value;
       tokens.push(`${table}.${key} ${op} ${placeholder}`);
-      if (type.toLowerCase() == 'string' || isString(value)) {
-        binds.push({
-          name: placeholder,
-          value: `"${value}"`, // quote
-        });
-      } else if (type.toLowerCase() == 'number' || isNumber(value)) {
-        binds.push({
-          name: placeholder,
-          value: Number(value),
-        });
-      } else if (type.toLowerCase() == 'boolean' || isBoolean(value)) {
-        binds.push({
-          name: placeholder,
-          value: Boolean(value),
-        });
+      let actualValue = value;
+      if (type) {
+        if (type.toLowerCase() == 'string') {
+          actualValue = `"${value}"`; // quote
+        } else if (type.toLowerCase() == 'number') {
+          actualValue = Number(value);
+        } else if (type.toLowerCase() == 'boolean') {
+          actualValue = Boolean(value);
+        }
       } else {
-        binds.push({
-          name: placeholder,
-          value: value,
-        });
+        if (isString(value)) {
+          actualValue = `"${value}"`; // quote
+        } else if (isNumber(value)) {
+          actualValue = Number(value);
+        } else if (isBoolean(value)) {
+          actualValue = Boolean(value);
+        }
       }
+      binds.push({
+        name: placeholder,
+        value: actualValue,
+      });
     }
     return {
       token: `( ${tokens.join(condition)} )`,

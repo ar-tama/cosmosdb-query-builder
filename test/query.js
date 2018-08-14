@@ -146,5 +146,15 @@ it('SELECT * FROM c WHERE c.flag = true', () => {
     { flag: { type: 'boolean', value: true } }
   );
   assert(querySpec.query.match(/SELECT \* FROM c WHERE \( c.flag = @flag[0-9]+ \)/));
-  assert(typeof querySpec.parameters[0].value, typeof Boolean(1));
+  assert.equal(typeof querySpec.parameters[0].value, typeof Boolean(1));
+});
+
+it('Quoted number', () => {
+  const querySpec = builder.query(
+    'SELECT * FROM %t WHERE %w',
+    'c',
+    { flag: { type: 'number', value: '12345' } }
+  );
+  assert(querySpec.query.match(/SELECT \* FROM c WHERE \( c.flag = @flag[0-9]+ \)/));
+  assert.equal(typeof querySpec.parameters[0].value, typeof Number(12345));
 });
